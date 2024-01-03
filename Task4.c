@@ -1,30 +1,41 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 
-char *removeNewline(char *l) {
-	char *p = strchr(l,'\n');
-	*p ='\0'; 
-	return l;
-	}
+#define lenstr 30
 
+char cmpfunc( const void *a, const void *b) {
+  return *(char*)a - *(char*)b;
+}
 
 int main(){
 	FILE *f = fopen("dictionary.txt" , "r");
 	FILE *fp = fopen("jumbles.txt" , "r");
-	char str[30] = "";
-	char strjum[30] = "",jum[30] = "";
+	char str[lenstr] = "",newstr[lenstr] = "";
+	char jum[lenstr] = "",newjum[lenstr] = "";
 
-	while ((fgets(strjum,30,fp)) != NULL)
+	while ((fgets(jum,lenstr,fp)) != NULL)
 	{
-		strcpy(jum,removeNewline(strjum));
-		// printf("%s",removeNewline(strjum));
-		while ((fgets(str,30,f)) != NULL)
+		int l = 0;
+		jum[strlen(jum)-1] ='\0';
+		strcpy(newjum,jum);
+		qsort(newjum,strlen(newjum),sizeof(char),cmpfunc);
+		printf("%s",jum);
+		while ((fgets(str,lenstr,f)) != NULL)
 		{
-			printf("%s : %s",jum,str);
-			// printf("%s\n",removeNewline(str));
+			str[strlen(str)-1] ='\0';
+			strcpy(newstr,str);
+			qsort(newstr,strlen(newstr),sizeof(char),cmpfunc);
+			if(strcmp(newjum,newstr) == 0){
+				printf(" : %s",str);
+				l++;
+			}
 		}
+		if(l == 0 ){
+				printf(" : Not Match");
+			}
+		printf("\n");
 		rewind(f);
-
 	}
 	fclose(fp);
 	fclose(f);
