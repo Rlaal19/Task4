@@ -26,9 +26,11 @@ int main(){
 			str[strlen(str)-1] ='\0';
 			strcpy(newstr,str);
 			qsort(newstr,strlen(newstr),sizeof(char),cmpfunc);
-			if(strcmp(newjum,newstr) == 0){
-				printf(" : %s",str);
-				l++;
+			if(strlen(newjum) == strlen(newstr)){
+				if(strcmp(newjum,newstr) == 0){
+					printf(" : %s",str);
+					l++;
+				}
 			}
 		}
 		if(l == 0 ){
@@ -39,9 +41,5 @@ int main(){
 	}
 	fclose(fp);
 	fclose(f);
-
-	// printf("File Jumbles");
-	// printf("\nDic = %d",l);
-	// printf("\nJumbles = %d",p);
 return 0;
 }
